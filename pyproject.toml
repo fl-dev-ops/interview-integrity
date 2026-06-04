@@ -1,0 +1,16 @@
+[project]
+name = "bench"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.13"
+dependencies = [
+    "nltk>=3.9.4",
+    "onnxruntime>=1.26.0",
+    "proselint>=0.16.0",
+    "sarvamai>=0.1.28",
+    "textstat>=0.7.13",
+    "torch>=2.12.0",
+    "torchaudio>=2.11.0",
+    "torchcodec>=0.13.0",
+    "transformers>=5.9.0",
+]
