@@ -15,6 +15,21 @@ wheels/
 # Analysis output
 output/
 
+# Data files (audio, transcripts, user data)
+*.mp3
+*.wav
+*.m4a
+*.zip
+data/deepanshu-gunwant/
+data/samples-1/
+data/user_jd_rounds_audio.yaml
+users.json
+
+# Pipeline input/output JSON (not config)
+v1-llm-detection/users_all_audio.json
+v1-llm-detection/vakilsearch_one_user.json
+v1_auto_research/results/
+
 # IDE
 .idea/
 .vscode/
