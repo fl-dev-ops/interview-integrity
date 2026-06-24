@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Periodic Table of Interview Signals</title>
+  <style>
+    :root {
+      --ink: #14202b;
+      --muted: #607080;
+      --paper: #f7f2e8;
+      --line: rgba(20, 32, 43, 0.14);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 12% 10%, rgba(255, 196, 0, 0.18), transparent 28%),
+        radial-gradient(circle at 88% 18%, rgba(27, 127, 204, 0.16), transparent 30%),
+        radial-gradient(circle at 72% 92%, rgba(226, 73, 120, 0.14), transparent 32%),
+        var(--paper);
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      padding: 34px;
+    }
+
+    .poster {
+      width: 1600px;
+      min-height: 1080px;
+      margin: 0 auto;
+      padding: 38px 42px 34px;
+      background: rgba(255, 253, 247, 0.86);
+      border: 2px solid var(--ink);
+      box-shadow: 18px 18px 0 rgba(20, 32, 43, 0.12);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .poster::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(rgba(20, 32, 43, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(20, 32, 43, 0.035) 1px, transparent 1px);
+      background-size: 22px 22px;
+      mix-blend-mode: multiply;
+    }
+
+    header {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      gap: 28px;
+      align-items: flex-end;
+      margin-bottom: 26px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 68px;
+      line-height: 0.9;
+      letter-spacing: -3px;
+      max-width: 980px;
+    }
+
+    .subtitle {
+      margin: 14px 0 0;
+      max-width: 850px;
+      font: 600 19px/1.35 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color: var(--muted);
+    }
+
+    .key {
+      width: 410px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      font: 700 12px/1.1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .key span {
+      padding: 9px 10px;
+      border: 1px solid var(--line);
+      background: white;
+      border-left: 10px solid var(--c);
+    }
+
+    .table {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      align-items: end;
+      gap: 12px;
+      z-index: 1;
+    }
+
+    .group {
+      display: grid;
+      gap: 8px;
+    }
+
+    .group-title {
+      height: 64px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 8px;
+      border: 1.5px solid rgba(20, 32, 43, 0.76);
+      background: var(--c);
+      color: white;
+      box-shadow: 5px 5px 0 rgba(20, 32, 43, 0.12);
+      font: 900 11px/1.05 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      text-align: center;
+    }
+
+    .tile {
+      height: 92px;
+      padding: 8px 8px 7px;
+      border: 1.5px solid rgba(20, 32, 43, 0.72);
+      background: color-mix(in srgb, var(--c) 18%, white);
+      box-shadow: 5px 5px 0 rgba(20, 32, 43, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .layer {
+      position: absolute;
+      top: 7px;
+      right: 7px;
+      min-width: 20px;
+      height: 20px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(20, 32, 43, 0.55);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.74);
+      font: 900 10px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      z-index: 2;
+    }
+
+    .tile::after {
+      content: "";
+      position: absolute;
+      inset: auto -18px -24px auto;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--c);
+      opacity: 0.18;
+    }
+
+    .num {
+      font: 800 10px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color: rgba(20, 32, 43, 0.58);
+    }
+
+    .sym {
+      margin-top: 5px;
+      font: 900 23px/0.95 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      letter-spacing: -1.4px;
+    }
+
+    .name {
+      margin-top: 5px;
+      font: 800 11.5px/1.05 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    .desc {
+      margin-top: 5px;
+      font: 600 9.5px/1.15 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color: #455564;
+    }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      margin-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font: 700 15px/1.3 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color: var(--muted);
+      border-top: 2px solid rgba(20, 32, 43, 0.16);
+      padding-top: 16px;
+    }
+
+    .legend {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .legend b {
+      color: var(--ink);
+    }
+  </style>
+</head>
+<body>
+  <main class="poster">
+    <header>
+      <div>
+        <h1>Periodic Table of Interview Signals</h1>
+        <p class="subtitle">A compact taxonomy for audio, conversation, language, confidence, thinking, and recording-quality signals.</p>
+      </div>
+      <div class="key" id="key"></div>
+    </header>
+    <section class="table" id="table" aria-label="Periodic table of interview signals"></section>
+    <footer>
+      <span class="legend"><b>M</b> Metric <b>D</b> Derived <b>J</b> Judgment <b>C</b> Composite</span>
+      <span>Draft v1 · Values can be filled later from transcript, audio, or human review.</span>
+    </footer>
+  </main>
+
+  <script>
+    const families = {
+      "Voice Delivery": "#18a56a",
+      "Pace & Rhythm": "#1f7fd1",
+      "Pauses & Silence": "#7b61d1",
+      "Fluency": "#00a7b5",
+      "Language Quality": "#f28c28",
+      "Answer Structure": "#e14949",
+      "Specificity": "#d9a900",
+      "Reasoning": "#d94b86",
+      "Conversation Behavior": "#159b8d",
+      "Confidence Signals": "#4758c8",
+      "Role Competency": "#8a633d",
+      "Recording Quality": "#7c8894"
+    };
+
+    const signals = [
+      ["Var", "Vocal variety", "Natural pitch", "Voice Delivery", "D"],
+      ["Ste", "Steadiness", "Stable voice", "Voice Delivery", "D"],
+      ["Ton", "Tone", "Warm/confident", "Voice Delivery", "J"],
+      ["Prj", "Projection", "Voice carries", "Voice Delivery", "D"],
+      ["En", "Energy", "Alive vs flat", "Voice Delivery", "J"],
+      ["Clr", "Clarity", "Easy to hear", "Voice Delivery", "D"],
+      ["Vol", "Volume", "Loud and clear", "Voice Delivery", "M"],
+      ["Mon", "Monotony", "Too flat", "Voice Delivery", "D"],
+
+      ["Acc", "Acceleration", "Speeds under load", "Pace & Rhythm", "M"],
+      ["Dec", "Deceleration", "Slows under load", "Pace & Rhythm", "M"],
+      ["Pac", "Pace control", "Balanced speed", "Pace & Rhythm", "D"],
+      ["Rhy", "Rhythm", "Natural flow", "Pace & Rhythm", "D"],
+      ["WPM", "Words/min", "Speaking speed", "Pace & Rhythm", "M"],
+      ["Rus", "Rushing", "Too fast", "Pace & Rhythm", "D"],
+      ["Drg", "Dragging", "Too slow", "Pace & Rhythm", "D"],
+
+      ["OP", "Owned pause", "Deliberate silence", "Pauses & Silence", "D"],
+      ["RP", "Recovery pause", "Pause improves answer", "Pauses & Silence", "D"],
+      ["Pau", "Pause quality", "Calm or lost", "Pauses & Silence", "D"],
+      ["HP", "Hesitation", "Stops mid-thought", "Pauses & Silence", "D"],
+      ["Lat", "Latency", "Time before answer", "Pauses & Silence", "M"],
+      ["Sil", "Long silence", "Breaks flow", "Pauses & Silence", "M"],
+      ["FP", "Filled pause", "Um, uh, like", "Pauses & Silence", "M"],
+
+      ["Coh", "Cohesion", "Ideas connect", "Fluency", "J"],
+      ["Conn", "Connectors", "Links ideas", "Fluency", "J"],
+      ["Flo", "Speech flow", "Smoothness", "Fluency", "D"],
+      ["SC", "Self-correct", "Mid-sentence fix", "Fluency", "D"],
+      ["Run", "Run-on speech", "No boundaries", "Fluency", "D"],
+      ["Frag", "Fragments", "Broken phrases", "Fluency", "D"],
+      ["FS", "False starts", "Restarting", "Fluency", "M"],
+      ["Rep", "Repetition", "Repeated phrases", "Fluency", "M"],
+
+      ["Pwr", "Power words", "Strong word choice", "Language Quality", "J"],
+      ["Gap", "Gap recovery", "Works around words", "Language Quality", "J"],
+      ["Idi", "Idioms", "Natural phrasing", "Language Quality", "J"],
+      ["Reg", "Register", "Professional tone", "Language Quality", "J"],
+      ["Tech", "Technical", "Domain words", "Language Quality", "J"],
+      ["Voc", "Vocabulary", "Word range", "Language Quality", "J"],
+      ["Sent", "Sentence", "Well formed", "Language Quality", "J"],
+      ["Ten", "Tense", "Time accuracy", "Language Quality", "J"],
+      ["SVA", "Agreement", "Subject-verb", "Language Quality", "J"],
+      ["Grm", "Grammar", "Correctness", "Language Quality", "J"],
+      ["RepW", "Word repeat", "Same words", "Language Quality", "M"],
+
+      ["STAR", "STAR", "Full answer arc", "Answer Structure", "C"],
+      ["Ex", "Example", "Strong case", "Answer Structure", "J"],
+      ["Res", "Result", "What happened", "Answer Structure", "J"],
+      ["Act", "Action", "What I did", "Answer Structure", "J"],
+      ["Str", "Structure", "Clear shape", "Answer Structure", "J"],
+      ["Ctx", "Context", "Situation named", "Answer Structure", "J"],
+      ["Drf", "Drift", "Off-topic", "Answer Structure", "J"],
+      ["Rel", "Relevance", "Answers ask", "Answer Structure", "J"],
+
+      ["Ver", "Verifiable", "Checkable", "Specificity", "J"],
+      ["Step", "Steps", "Sequence", "Specificity", "J"],
+      ["Num", "Numbers", "Metrics/dates", "Specificity", "J"],
+      ["Nam", "Names", "Tools/projects", "Specificity", "J"],
+      ["Det", "Detail", "Specific vs vague", "Specificity", "J"],
+      ["Con", "Concrete", "Specific language", "Specificity", "J"],
+
+      ["Beyond", "Goes beyond", "Adds learning", "Reasoning", "J"],
+      ["Ref", "Reflection", "Changed behavior", "Reasoning", "J"],
+      ["Ins", "Insight", "New learning", "Reasoning", "J"],
+      ["Trd", "Tradeoffs", "Gain/loss", "Reasoning", "J"],
+      ["Opt", "Options", "Alternatives", "Reasoning", "J"],
+      ["Jud", "Judgment", "Owned decision", "Reasoning", "J"],
+      ["C&E", "Cause/effect", "Consequence", "Reasoning", "J"],
+      ["Why", "Reasoning", "Why it happened", "Reasoning", "J"],
+
+      ["Adp", "Adaptability", "Handles follow-up", "Conversation Behavior", "J"],
+      ["Rec", "Recovery", "Regains control", "Conversation Behavior", "J"],
+      ["Ask", "Clarifying", "Asks if unclear", "Conversation Behavior", "J"],
+      ["B&F", "Back/forth", "Keeps going", "Conversation Behavior", "J"],
+      ["Lis", "Listening", "Understands ask", "Conversation Behavior", "J"],
+      ["Ans", "Responsive", "Direct answer", "Conversation Behavior", "J"],
+      ["Turn", "Turn-taking", "No overtalk", "Conversation Behavior", "J"],
+
+      ["Trust", "Trust", "Listener trust", "Confidence Signals", "J"],
+      ["Pres", "Presence", "Belongs here", "Confidence Signals", "J"],
+      ["Hold", "Pressure hold", "Stable when hard", "Confidence Signals", "J"],
+      ["Recv", "Recovery speed", "Fast regain", "Confidence Signals", "D"],
+      ["Own", "Ownership", "Active agency", "Confidence Signals", "J"],
+      ["Conf", "Confidence", "Overall belief", "Confidence Signals", "C"],
+      ["Nerv", "Nervousness", "Audible anxiety", "Confidence Signals", "J"],
+
+      ["Imp", "Impact", "Named outcome", "Role Competency", "J"],
+      ["Lead", "Leadership", "Initiative", "Role Competency", "J"],
+      ["Prof", "Maturity", "Work judgment", "Role Competency", "J"],
+      ["Prob", "Problem solve", "Handles ambiguity", "Role Competency", "J"],
+      ["Coll", "Collab", "Team evidence", "Role Competency", "J"],
+      ["Learn", "Learnability", "Improves", "Role Competency", "J"],
+      ["Comp", "Competency", "Role behavior", "Role Competency", "C"],
+
+      ["Dia", "Diarization", "Speaker split", "Recording Quality", "M"],
+      ["SNR", "SNR", "Voice vs noise", "Recording Quality", "M"],
+      ["Drop", "Dropouts", "Missing chunks", "Recording Quality", "M"],
+      ["Clip", "Clipping", "Distortion", "Recording Quality", "M"],
+      ["Echo", "Echo", "Room reverb", "Recording Quality", "M"],
+      ["Mic", "Mic quality", "Device clarity", "Recording Quality", "M"],
+      ["Noi", "Noise", "Background sound", "Recording Quality", "M"]
+    ];
+
+    const key = document.getElementById("key");
+    Object.entries(families).forEach(([name, color]) => {
+      const el = document.createElement("span");
+      el.style.setProperty("--c", color);
+      el.textContent = name;
+      key.appendChild(el);
+    });
+
+    const table = document.getElementById("table");
+    let count = 0;
+    Object.entries(families).forEach(([family, color]) => {
+      const group = document.createElement("div");
+      group.className = "group";
+      group.style.setProperty("--c", color);
+
+      signals
+        .filter(([, , , signalFamily]) => signalFamily === family)
+        .forEach(([sym, name, desc, , layer]) => {
+          count += 1;
+          const tile = document.createElement("article");
+          tile.className = "tile";
+          tile.style.setProperty("--c", color);
+          tile.innerHTML = `<div class="layer">${layer}</div><div class="num">${String(count).padStart(2, "0")}</div><div class="sym">${sym}</div><div class="name">${name}</div><div class="desc">${desc}</div>`;
+          group.appendChild(tile);
+        });
+
+      const title = document.createElement("div");
+      title.className = "group-title";
+      title.textContent = family;
+      group.appendChild(title);
+
+      table.appendChild(group);
+    });
+  </script>
+</body>
+</html>
